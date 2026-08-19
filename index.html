@@ -2,8 +2,13 @@
 <html lang="es">
 
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
 
     <title>Pokémon V Collection</title>
 
@@ -53,7 +58,9 @@
             background: white;
             border-radius: 15px;
             padding: 25px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            box-shadow:
+                0 4px 12px
+                rgba(0, 0, 0, 0.08);
         }
 
         .estadistica h2 {
@@ -81,8 +88,6 @@
             transition: width 0.4s ease;
         }
 
-        /* BUSCADOR */
-
         .buscador {
             margin-bottom: 15px;
         }
@@ -100,7 +105,9 @@
 
         .buscador input:focus {
             border-color: #2563eb;
-            box-shadow: 0 0 0 3px rgba(37,99,235,0.12);
+            box-shadow:
+                0 0 0 3px
+                rgba(37, 99, 235, 0.12);
         }
 
         .controles {
@@ -130,7 +137,11 @@
 
         .cartas {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            grid-template-columns:
+                repeat(
+                    auto-fill,
+                    minmax(180px, 1fr)
+                );
             gap: 20px;
         }
 
@@ -139,13 +150,19 @@
             background: white;
             border-radius: 15px;
             padding: 10px;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
-            transition: transform 0.25s ease, box-shadow 0.3s ease;
+            box-shadow:
+                0 4px 12px
+                rgba(0, 0, 0, 0.08);
+            transition:
+                transform 0.25s ease,
+                box-shadow 0.3s ease;
         }
 
         .carta:hover {
             transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+            box-shadow:
+                0 10px 25px
+                rgba(0, 0, 0, 0.15);
         }
 
         .carta img {
@@ -179,6 +196,25 @@
             background: #ffd21f;
         }
 
+        #selector-expansion {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid #d1d5db;
+            border-radius: 12px;
+            font-size: 16px;
+            background: white;
+            margin-bottom: 15px;
+            cursor: pointer;
+            outline: none;
+        }
+
+        #selector-expansion:focus {
+            border-color: #2563eb;
+            box-shadow:
+                0 0 0 3px
+                rgba(37, 99, 235, 0.12);
+        }
+
         @media (max-width: 700px) {
 
             header {
@@ -190,14 +226,17 @@
             }
 
             .cartas {
-                grid-template-columns: repeat(2, 1fr);
+                grid-template-columns:
+                    repeat(2, 1fr);
                 gap: 12px;
             }
 
         }
 
     </style>
+
 </head>
+
 
 <body>
 
@@ -205,7 +244,9 @@
 
         <h1>Pokémon V Collection</h1>
 
-        <p>Mi colección de cartas Pokémon</p>
+        <p>
+            Mi colección de cartas Pokémon
+        </p>
 
     </header>
 
@@ -218,7 +259,9 @@
 
                 <h2>0 / 0</h2>
 
-                <p>Cartas conseguidas</p>
+                <p>
+                    Cartas conseguidas
+                </p>
 
             </div>
 
@@ -227,7 +270,9 @@
 
                 <h2>0%</h2>
 
-                <p>Colección completada</p>
+                <p>
+                    Colección completada
+                </p>
 
                 <div class="barra">
 
@@ -242,28 +287,35 @@
 
                 <h2>0</h2>
 
-                <p>Cartas pendientes</p>
+                <p>
+                    Cartas pendientes
+                </p>
 
             </div>
 
         </section>
 
 
-        <!-- BUSCADOR -->
-
         <div class="buscador">
 
             <input
                 type="text"
                 id="buscador"
-                placeholder="Buscar Pokémon..."
+                placeholder="Buscar Pokémon, expansión o número..."
                 autocomplete="off"
             >
 
         </div>
 
 
-        <!-- FILTROS -->
+        <select id="selector-expansion">
+
+            <option value="todas">
+                Todas las expansiones
+            </option>
+
+        </select>
+
 
         <div class="controles">
 
@@ -281,8 +333,6 @@
 
         </div>
 
-
-        <!-- CARTAS -->
 
         <section
             class="cartas"

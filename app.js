@@ -1,6 +1,7 @@
 let cartas = [];
 let filtroActual = "todas";
 let textoBusqueda = "";
+let expansionActual = "todas";
 
 const listaCartas = document.getElementById("lista-cartas");
 const botones = document.querySelectorAll(".controles button");
@@ -10,11 +11,10 @@ const CLAVE_COLECCION = "pokemon_v_collection";
 
 
 /* =========================================================
-   ORDEN DE LANZAMIENTO DE LAS EXPANSIONES
+   ORDEN DE EXPANSIONES
 ========================================================= */
 
 const ordenExpansiones = [
-
     "swsh1",
     "swsh2",
     "swsh3",
@@ -25,7 +25,10 @@ const ordenExpansiones = [
     "swsh5",
     "swsh6",
     "swsh7",
-    "swshp",
+
+    /* CELEBRACIONES */
+    "cel",
+
     "swsh8",
     "swsh9",
     "swsh9tg",
@@ -36,103 +39,74 @@ const ordenExpansiones = [
     "swsh12",
     "swsh12tg",
     "swsh12pt5",
-    "swsh12pt5gg"
-
+    "swsh12pt5gg",
+    "pgo",
+    "swshp"
 ];
 
 
 /* =========================================================
-   NOMBRES OFICIALES DE LAS EXPANSIONES
+   NOMBRES EN ESPAÑOL
 ========================================================= */
 
 const nombresExpansiones = {
 
-    swsh1:
-        "Espada y Escudo",
+    swsh1: "Espada y Escudo",
+    swsh2: "Choque Rebelde",
+    swsh3: "Oscuridad Incandescente",
+    swsh35: "Camino de Campeones",
+    swsh4: "Voltaje Vívido",
+    swsh45: "Destinos Brillantes",
+    swsh45sv: "Destinos Brillantes · SV",
+    swsh5: "Estilos de Combate",
+    swsh6: "Reinado Escalofriante",
+    swsh7: "Cielos Evolutivos",
 
-    swsh2:
-        "Choque Rebelde",
+    /* CELEBRACIONES */
+    cel: "Celebraciones",
 
-    swsh3:
-        "Oscuridad Incandescente",
-
-    swsh35:
-        "Camino de Campeones",
-
-    swsh4:
-        "Voltaje Vívido",
-
-    swsh45:
-        "Destinos Brillantes",
-
-    swsh45sv:
-        "Destinos Brillantes · SV",
-
-    swsh5:
-        "Estilos de Combate",
-
-    swsh6:
-        "Reinado Escalofriante",
-
-    swsh7:
-        "Cielos Evolutivos",
-
-    swshp:
-        "Promocionales",
-
-    swsh8:
-        "Golpe Fusión",
-
-    swsh9:
-        "Astros Brillantes",
-
-    swsh9tg:
-        "Galería de Entrenadores de Astros Brillantes",
-
-    swsh10:
-        "Resplandor Astral",
-
-    swsh10tg:
-        "Galería de Entrenadores de Resplandor Astral",
-
-    swsh11:
-        "Origen Perdido",
-
-    swsh11tg:
-        "Galería de Entrenadores de Origen Perdido",
-
-    swsh12:
-        "Tempestad Plateada",
-
-    swsh12tg:
-        "Galería de Entrenadores de Tempestad Plateada",
-
-    swsh12pt5:
-        "Cenit Supremo",
-
-    swsh12pt5gg:
-        "Galería de Galar de Cenit Supremo"
+    swshp: "Promocionales",
+    swsh8: "Golpe Fusión",
+    swsh9: "Astros Brillantes",
+    swsh9tg: "Galería de Entrenadores de Astros Brillantes",
+    swsh10: "Resplandor Astral",
+    swsh10tg: "Galería de Entrenadores de Resplandor Astral",
+    swsh11: "Origen Perdido",
+    swsh11tg: "Galería de Entrenadores de Origen Perdido",
+    swsh12: "Tempestad Plateada",
+    swsh12tg: "Galería de Entrenadores de Tempestad Plateada",
+    swsh12pt5: "Cenit Supremo",
+    swsh12pt5gg: "Galería de Galar de Cenit Supremo",
+    pgo: "Pokémon GO"
 
 };
 
 
 /* =========================================================
-   ORDENAR CARTAS
+   OBTENER SET ID
 ========================================================= */
 
 function obtenerSetId(carta) {
+
+    if (!carta) {
+        return "";
+    }
+
+    if (carta.setId) {
+        return String(carta.setId);
+    }
 
     if (!carta.id) {
         return "";
     }
 
-    const partes =
-        carta.id.split("-");
-
-    return partes[0];
-
+    return String(carta.id).split("-")[0];
 }
 
+
+/* =========================================================
+   OBTENER NÚMERO
+========================================================= */
 
 function obtenerNumeroNumerico(carta) {
 
@@ -141,20 +115,51 @@ function obtenerNumeroNumerico(carta) {
             .replace(/\D/g, "");
 
     return parseInt(numero, 10) || 0;
-
 }
 
+
+/* =========================================================
+   NOMBRE DE EXPANSIÓN
+========================================================= */
+
+function obtenerNombreExpansionEspanol(carta) {
+
+    return nombresExpansiones[
+        obtenerSetId(carta)
+    ] || "";
+}
+
+
+function obtenerNombreExpansion(carta) {
+
+    const nombreEspanol =
+        obtenerNombreExpansionEspanol(carta);
+
+    if (nombreEspanol) {
+        return nombreEspanol;
+    }
+
+    if (
+        carta.expansion &&
+        carta.expansion !== "null"
+    ) {
+        return carta.expansion;
+    }
+
+    return "Sin expansión";
+}
+
+
+/* =========================================================
+   ORDENAR CARTAS
+========================================================= */
 
 function ordenarCartas() {
 
     cartas.sort((a, b) => {
 
-        const setA =
-            obtenerSetId(a);
-
-        const setB =
-            obtenerSetId(b);
-
+        const setA = obtenerSetId(a);
+        const setB = obtenerSetId(b);
 
         const posicionA =
             ordenExpansiones.indexOf(setA);
@@ -162,24 +167,15 @@ function ordenarCartas() {
         const posicionB =
             ordenExpansiones.indexOf(setB);
 
-
         const ordenA =
-            posicionA === -1
-                ? 999
-                : posicionA;
+            posicionA === -1 ? 999 : posicionA;
 
         const ordenB =
-            posicionB === -1
-                ? 999
-                : posicionB;
-
+            posicionB === -1 ? 999 : posicionB;
 
         if (ordenA !== ordenB) {
-
             return ordenA - ordenB;
-
         }
-
 
         const numeroA =
             obtenerNumeroNumerico(a);
@@ -187,21 +183,104 @@ function ordenarCartas() {
         const numeroB =
             obtenerNumeroNumerico(b);
 
-
         if (numeroA !== numeroB) {
-
             return numeroA - numeroB;
-
         }
 
-
         return String(a.id)
-            .localeCompare(
-                String(b.id)
+            .localeCompare(String(b.id));
+    });
+}
+
+
+/* =========================================================
+   CREAR SELECTOR DE EXPANSIONES
+========================================================= */
+
+function crearSelectorExpansiones() {
+
+    let selector =
+        document.getElementById(
+            "selector-expansion"
+        );
+
+    if (!selector) {
+
+        selector =
+            document.createElement("select");
+
+        selector.id =
+            "selector-expansion";
+
+        const buscadorElemento =
+            document.querySelector(".buscador");
+
+        if (buscadorElemento) {
+
+            buscadorElemento.insertAdjacentElement(
+                "afterend",
+                selector
             );
 
+        } else {
+
+            listaCartas.parentElement.insertBefore(
+                selector,
+                listaCartas
+            );
+
+        }
+    }
+
+    selector.innerHTML = "";
+
+    const todas =
+        document.createElement("option");
+
+    todas.value = "todas";
+    todas.textContent = "Todas las expansiones";
+
+    selector.appendChild(todas);
+
+    ordenExpansiones.forEach(setId => {
+
+        if (!nombresExpansiones[setId]) {
+            return;
+        }
+
+        const opcion =
+            document.createElement("option");
+
+        opcion.value = setId;
+        opcion.textContent =
+            nombresExpansiones[setId];
+
+        selector.appendChild(opcion);
     });
 
+    selector.value =
+        expansionActual;
+
+    selector.onchange = function () {
+
+        expansionActual =
+            selector.value;
+
+        mostrarCartas();
+    };
+
+
+    /* ESTILO DEL DESPLEGABLE */
+
+    selector.style.width = "100%";
+    selector.style.padding = "14px 18px";
+    selector.style.border = "1px solid #d1d5db";
+    selector.style.borderRadius = "12px";
+    selector.style.fontSize = "16px";
+    selector.style.background = "white";
+    selector.style.marginBottom = "15px";
+    selector.style.cursor = "pointer";
+    selector.style.outline = "none";
 }
 
 
@@ -218,17 +297,14 @@ fetch("cartas.json")
             throw new Error(
                 "No se ha podido cargar cartas.json"
             );
-
         }
 
         return respuesta.json();
-
     })
 
     .then(datos => {
 
         cartas = datos;
-
 
         const guardadas =
             JSON.parse(
@@ -237,23 +313,20 @@ fetch("cartas.json")
                 ) || "[]"
             );
 
-
         cartas.forEach(carta => {
 
             carta.conseguida =
-                guardadas.includes(
-                    carta.id
-                );
+                guardadas.includes(carta.id);
 
         });
 
-
         ordenarCartas();
+
+        crearSelectorExpansiones();
 
         mostrarCartas();
 
         actualizarEstadisticas();
-
     })
 
     .catch(error => {
@@ -263,10 +336,8 @@ fetch("cartas.json")
             error
         );
 
-
         listaCartas.innerHTML =
-            '<p style="grid-column:1/-1;text-align:center;color:#dc2626;">Error al cargar las cartas. Mira la consola del navegador.</p>';
-
+            '<p style="grid-column:1/-1;text-align:center;color:#dc2626;padding:40px;">Error al cargar las cartas. Mira la consola del navegador.</p>';
     });
 
 
@@ -286,10 +357,8 @@ if (buscador) {
                     .toLowerCase();
 
             mostrarCartas();
-
         }
     );
-
 }
 
 
@@ -307,7 +376,6 @@ function normalizarTexto(texto) {
             ""
         )
         .trim();
-
 }
 
 
@@ -321,116 +389,98 @@ function obtenerNumeroCarta(carta) {
         String(carta.numero || "")
             .trim();
 
-
     if (!numero) {
-
         return "";
-
     }
-
-
-    /*
-     * TRAINER GALLERY
-     *
-     * TG13 → TG13/TG30
-     * TG29 → TG29/TG30
-     */
 
     if (
-
-        numero
-            .toUpperCase()
-            .startsWith("TG") &&
-
+        numero.toUpperCase().startsWith("TG") &&
         carta.totalExpansion !== null &&
-
         carta.totalExpansion !== undefined &&
-
         carta.totalExpansion !== ""
-
     ) {
 
-        const numeroTG =
-            numero.toUpperCase();
-
-
-        const totalTG =
-            String(
-                carta.totalExpansion
-            ).trim();
-
-
         return (
-
-            numeroTG +
-
-            "/" +
-
-            "TG" +
-
-            totalTG
-
+            numero.toUpperCase() +
+            "/TG" +
+            String(carta.totalExpansion).trim()
         );
-
     }
-
-
-    /*
-     * CARTAS NORMALES
-     *
-     * 1   → 001
-     * 7   → 007
-     * 66  → 066
-     * 158 → 158
-     *
-     * Con total:
-     *
-     * 1/202   → 001/202
-     * 66/158  → 066/158
-     */
 
     const numeroFormateado =
         numero.padStart(3, "0");
 
-
     if (
-
         carta.totalExpansion !== null &&
-
         carta.totalExpansion !== undefined &&
-
         carta.totalExpansion !== ""
-
     ) {
 
         const total =
-            String(
-                carta.totalExpansion
-            )
-            .trim()
-            .padStart(3, "0");
-
+            String(carta.totalExpansion)
+                .trim()
+                .padStart(3, "0");
 
         return (
-
             numeroFormateado +
-
             "/" +
-
             total
-
         );
-
     }
 
-
-    /*
-     * Promocionales u otras cartas
-     * sin total.
-     */
-
     return numeroFormateado;
+}
 
+
+/* =========================================================
+   TEXTO DE BÚSQUEDA
+========================================================= */
+
+function obtenerTextoBusquedaCarta(carta) {
+
+    const setId =
+        obtenerSetId(carta);
+
+    const expansionEspanol =
+        nombresExpansiones[setId] || "";
+
+    const expansionOriginal =
+        carta.expansion || "";
+
+    const numero =
+        carta.numero || "";
+
+    const numeroCompleto =
+        obtenerNumeroCarta(carta);
+
+    const campos = [
+
+        carta.nombre,
+        expansionOriginal,
+        expansionEspanol,
+        setId,
+        numero,
+        numeroCompleto,
+        carta.variante,
+        carta.tipo,
+        carta.rareza,
+        carta.id
+
+    ];
+
+    return campos
+
+        .filter(campo =>
+            campo !== null &&
+            campo !== undefined &&
+            campo !== ""
+        )
+
+        .map(campo =>
+            normalizarTexto(campo)
+        )
+
+        .join(" ");
 }
 
 
@@ -442,253 +492,120 @@ function mostrarCartas() {
 
     listaCartas.innerHTML = "";
 
+    const busquedaNormalizada =
+        normalizarTexto(textoBusqueda);
 
     const cartasFiltradas =
         cartas.filter(carta => {
 
-
-            /* -----------------------------------------
-               FILTRO DE COLECCIÓN
-            ----------------------------------------- */
+            if (
+                expansionActual !== "todas" &&
+                obtenerSetId(carta) !==
+                    expansionActual
+            ) {
+                return false;
+            }
 
             if (
-
                 filtroActual === "tengo" &&
-
                 !carta.conseguida
-
             ) {
-
                 return false;
-
             }
 
-
             if (
-
                 filtroActual === "faltan" &&
-
                 carta.conseguida
-
             ) {
-
                 return false;
-
             }
-
-
-            /* -----------------------------------------
-               BUSCADOR
-            ----------------------------------------- */
 
             if (
-                textoBusqueda !== ""
+                busquedaNormalizada !== ""
             ) {
 
-                const nombre =
-                    normalizarTexto(
-                        carta.nombre
+                const textoCarta =
+                    obtenerTextoBusquedaCarta(
+                        carta
                     );
 
-
-                const expansion =
-                    normalizarTexto(
-                        carta.expansion
-                    );
-
-
-                const numero =
-                    normalizarTexto(
-                        carta.numero
-                    );
-
-
-                const numeroCompleto =
-                    normalizarTexto(
-                        obtenerNumeroCarta(
-                            carta
-                        )
-                    );
-
-
-                const variante =
-                    normalizarTexto(
-                        carta.variante
-                    );
-
-
-                const tipo =
-                    normalizarTexto(
-                        carta.tipo
-                    );
-
-
-                const rareza =
-                    normalizarTexto(
-                        carta.rareza
-                    );
-
-
-                const id =
-                    normalizarTexto(
-                        carta.id
-                    );
-
-
-                const coincide =
-
-                    nombre.includes(
-                        textoBusqueda
-                    ) ||
-
-                    expansion.includes(
-                        textoBusqueda
-                    ) ||
-
-                    numero.includes(
-                        textoBusqueda
-                    ) ||
-
-                    numeroCompleto.includes(
-                        textoBusqueda
-                    ) ||
-
-                    variante.includes(
-                        textoBusqueda
-                    ) ||
-
-                    tipo.includes(
-                        textoBusqueda
-                    ) ||
-
-                    rareza.includes(
-                        textoBusqueda
-                    ) ||
-
-                    id.includes(
-                        textoBusqueda
-                    );
-
-
-                if (!coincide) {
-
+                if (
+                    !textoCarta.includes(
+                        busquedaNormalizada
+                    )
+                ) {
                     return false;
-
                 }
-
             }
-
 
             return true;
-
         });
 
 
     /* =====================================================
-       CREAR CADA CARTA
+       CREAR CARTAS
     ===================================================== */
 
     cartasFiltradas.forEach(carta => {
 
         const elemento =
-            document.createElement(
-                "div"
-            );
+            document.createElement("div");
+
+        elemento.className = "carta";
 
 
-        elemento.className =
-            "carta";
-
-
-        /* -----------------------------------------
-           CONTENEDOR DE IMAGEN
-        ----------------------------------------- */
+        /* IMAGEN */
 
         const imagenContenedor =
-            document.createElement(
-                "div"
-            );
-
+            document.createElement("div");
 
         imagenContenedor.className =
             "imagen-contenedor";
 
-
-        /* -----------------------------------------
-           IMAGEN
-        ----------------------------------------- */
-
         const imagen =
-            document.createElement(
-                "img"
-            );
+            document.createElement("img");
 
-
-        imagen.src =
-            carta.imagen;
-
-
-        imagen.alt =
-            carta.nombre;
-
+        imagen.src = carta.imagen;
+        imagen.alt = carta.nombre;
 
         if (!carta.conseguida) {
 
             imagen.classList.add(
                 "carta-faltante"
             );
-
         }
-
 
         imagenContenedor.appendChild(
             imagen
         );
 
 
-        /* =================================================
-           EFECTOS CARTA CONSEGUIDA
-        ================================================= */
+        /* EFECTO CONSEGUIDA */
 
         if (carta.conseguida) {
 
             const luz =
-                document.createElement(
-                    "div"
-                );
-
+                document.createElement("div");
 
             luz.className =
                 "luz-energia";
-
 
             imagenContenedor.appendChild(
                 luz
             );
 
-
             const estrellas =
-                document.createElement(
-                    "div"
-                );
-
+                document.createElement("div");
 
             estrellas.className =
                 "estrellas-carta";
 
-
             const posiciones = [
-
                 [18, 22],
-
                 [72, 30],
-
                 [35, 68],
-
                 [80, 75]
-
             ];
-
 
             posiciones.forEach(
                 (posicion, indice) => {
@@ -698,36 +615,26 @@ function mostrarCartas() {
                             "span"
                         );
 
-
                     estrella.className =
                         "estrella";
-
 
                     estrella.textContent =
                         "✦";
 
-
                     estrella.style.left =
                         posicion[0] + "%";
-
 
                     estrella.style.top =
                         posicion[1] + "%";
 
-
                     estrella.style.animationDelay =
-                        (
-                            indice * 0.75
-                        ) + "s";
-
+                        (indice * 0.75) + "s";
 
                     estrellas.appendChild(
                         estrella
                     );
-
                 }
             );
-
 
             imagenContenedor.appendChild(
                 estrellas
@@ -735,27 +642,19 @@ function mostrarCartas() {
 
         }
 
-
-        /* =================================================
-           EFECTO CARTA FALTANTE
-        ================================================= */
+        /* EFECTO FALTANTE */
 
         else {
 
             const luzFaltante =
-                document.createElement(
-                    "div"
-                );
-
+                document.createElement("div");
 
             luzFaltante.className =
                 "luz-faltante";
 
-
             imagenContenedor.appendChild(
                 luzFaltante
             );
-
         }
 
 
@@ -764,214 +663,114 @@ function mostrarCartas() {
         );
 
 
-        /* -----------------------------------------
-           NOMBRE
-        ----------------------------------------- */
+        /* NOMBRE */
 
         const titulo =
-            document.createElement(
-                "h3"
-            );
-
+            document.createElement("h3");
 
         titulo.textContent =
             carta.nombre;
-
 
         elemento.appendChild(
             titulo
         );
 
 
-        /* -----------------------------------------
-           EXPANSIÓN
-        ----------------------------------------- */
-
-        const setId =
-            obtenerSetId(carta);
-
-
-        const expansion =
-
-            nombresExpansiones[setId]
-
-                ?
-
-                nombresExpansiones[setId]
-
-                :
-
-                (
-
-                    carta.expansion &&
-
-                    carta.expansion !== "null"
-
-                        ?
-
-                        carta.expansion
-
-                        :
-
-                        "Sin expansión"
-
-                );
-
+        /* EXPANSIÓN */
 
         const textoExpansion =
-            document.createElement(
-                "p"
-            );
-
+            document.createElement("p");
 
         textoExpansion.textContent =
-            expansion;
-
+            obtenerNombreExpansion(carta);
 
         elemento.appendChild(
             textoExpansion
         );
 
 
-        /* -----------------------------------------
-           NÚMERO Y TIPO
-        ----------------------------------------- */
+        /* NÚMERO Y TIPO */
 
         const tipoCarta =
-
             carta.tipo &&
-
             carta.tipo !== "null"
-
-                ?
-
-                carta.tipo
-
-                :
-
-                "Sin tipo";
-
+                ? carta.tipo
+                : "Sin tipo";
 
         const numeroCarta =
-            obtenerNumeroCarta(
-                carta
-            );
-
+            obtenerNumeroCarta(carta);
 
         const textoNumero =
-            document.createElement(
-                "p"
-            );
-
+            document.createElement("p");
 
         textoNumero.textContent =
-
             "Nº carta: " +
-
             numeroCarta +
-
             " · " +
-
             tipoCarta;
-
 
         elemento.appendChild(
             textoNumero
         );
 
 
-        /* -----------------------------------------
-           VARIANTE
-        ----------------------------------------- */
+        /* VARIANTE */
 
         const variante =
-
             carta.variante &&
-
             carta.variante !== "null"
-
-                ?
-
-                carta.variante
-
-                :
-
-                "Normal";
-
+                ? carta.variante
+                : "Normal";
 
         const textoVariante =
-            document.createElement(
-                "p"
-            );
-
+            document.createElement("p");
 
         textoVariante.textContent =
             variante;
-
 
         elemento.appendChild(
             textoVariante
         );
 
 
-        /* -----------------------------------------
-           RAREZA
-        ----------------------------------------- */
+        /* RAREZA */
 
         if (
-
             carta.rareza &&
-
             carta.rareza !== "null"
-
         ) {
 
             const textoRareza =
-                document.createElement(
-                    "p"
-                );
-
+                document.createElement("p");
 
             textoRareza.textContent =
                 carta.rareza;
 
-
             elemento.appendChild(
                 textoRareza
             );
-
         }
 
 
-        /* -----------------------------------------
-           BOTÓN
-        ----------------------------------------- */
+        /* BOTÓN */
 
         const boton =
-            document.createElement(
-                "button"
-            );
-
+            document.createElement("button");
 
         if (carta.conseguida) {
 
             boton.textContent =
                 "La tengo ✓";
 
-
             boton.classList.add(
                 "conseguida"
             );
 
-        }
-
-        else {
+        } else {
 
             boton.textContent =
                 "La tengo";
-
         }
-
 
         boton.addEventListener(
             "click",
@@ -980,34 +779,25 @@ function mostrarCartas() {
                 carta.conseguida =
                     !carta.conseguida;
 
-
                 guardarColeccion();
-
 
                 mostrarCartas();
 
-
                 actualizarEstadisticas();
-
             }
         );
-
 
         elemento.appendChild(
             boton
         );
 
-
         listaCartas.appendChild(
             elemento
         );
-
     });
 
 
-    /* =================================================
-       SIN RESULTADOS
-    ================================================= */
+    /* SIN RESULTADOS */
 
     if (
         cartasFiltradas.length === 0
@@ -1015,9 +805,7 @@ function mostrarCartas() {
 
         listaCartas.innerHTML =
             '<p style="grid-column:1/-1;text-align:center;color:#6b7280;padding:40px;">No se han encontrado cartas.</p>';
-
     }
-
 }
 
 
@@ -1033,50 +821,31 @@ botones.forEach(
             () => {
 
                 botones.forEach(
-                    b => {
-
+                    b =>
                         b.classList.remove(
                             "activo"
-                        );
-
-                    }
+                        )
                 );
-
 
                 boton.classList.add(
                     "activo"
                 );
 
-
                 if (indice === 0) {
-
-                    filtroActual =
-                        "todas";
-
+                    filtroActual = "todas";
                 }
-
 
                 if (indice === 1) {
-
-                    filtroActual =
-                        "tengo";
-
+                    filtroActual = "tengo";
                 }
-
 
                 if (indice === 2) {
-
-                    filtroActual =
-                        "faltan";
-
+                    filtroActual = "faltan";
                 }
 
-
                 mostrarCartas();
-
             }
         );
-
     }
 );
 
@@ -1088,30 +857,18 @@ botones.forEach(
 function guardarColeccion() {
 
     const conseguidas =
-
         cartas
-
-            .filter(
-                carta =>
-                    carta.conseguida
+            .filter(carta =>
+                carta.conseguida
             )
-
-            .map(
-                carta =>
-                    carta.id
+            .map(carta =>
+                carta.id
             );
 
-
     localStorage.setItem(
-
         CLAVE_COLECCION,
-
-        JSON.stringify(
-            conseguidas
-        )
-
+        JSON.stringify(conseguidas)
     );
-
 }
 
 
@@ -1124,42 +881,26 @@ function actualizarEstadisticas() {
     const total =
         cartas.length;
 
-
     const conseguidas =
         cartas.filter(
             carta =>
                 carta.conseguida
         ).length;
 
-
     const pendientes =
-        total -
-        conseguidas;
-
+        total - conseguidas;
 
     const porcentaje =
-
         total > 0
-
-            ?
-
-            Math.round(
-                (
-                    conseguidas /
-                    total
-                ) * 100
+            ? Math.round(
+                (conseguidas / total) * 100
             )
-
-            :
-
-            0;
-
+            : 0;
 
     const estadisticas =
         document.querySelectorAll(
             ".estadistica"
         );
-
 
     if (
         estadisticas.length >= 3
@@ -1168,45 +909,32 @@ function actualizarEstadisticas() {
         estadisticas[0]
             .querySelector("h2")
             .textContent =
-
-            conseguidas +
-
-            " / " +
-
-            total;
-
+                conseguidas +
+                " / " +
+                total;
 
         estadisticas[1]
             .querySelector("h2")
             .textContent =
-
-            porcentaje +
-
-            "%";
-
+                porcentaje +
+                "%";
 
         estadisticas[2]
             .querySelector("h2")
             .textContent =
-
-            pendientes;
-
+                pendientes;
 
         const progreso =
             document.querySelector(
                 ".progreso"
             );
 
-
         if (progreso) {
 
             progreso.style.width =
                 porcentaje + "%";
-
         }
-
     }
-
 }
 
 
@@ -1215,399 +943,192 @@ function actualizarEstadisticas() {
 ========================================================= */
 
 const estilos =
-    document.createElement(
-        "style"
-    );
-
+    document.createElement("style");
 
 estilos.textContent = `
 
 .imagen-contenedor {
-
     position: relative;
-
     overflow: visible;
-
     border-radius: 10px;
-
     z-index: 1;
-
 }
 
-
-/* =========================================
-   CARTAS QUE FALTAN
-========================================= */
-
 .carta-faltante {
-
     filter:
         saturate(45%)
         brightness(75%)
         contrast(90%);
-
-    transition:
-        filter 0.3s ease;
-
+    transition: filter 0.3s ease;
 }
 
-
-/* =========================================
-   LUZ AZUL
-========================================= */
-
 .luz-energia {
-
     position: absolute;
-
     top: -11px;
-
     left: -11px;
-
     right: -11px;
-
     bottom: -11px;
-
     pointer-events: none;
-
     z-index: -1;
-
     border-radius: 15px;
 
     box-shadow:
-
-        0 0 10px
-        rgba(
-            70,
-            190,
-            255,
-            0.45
-        ),
-
-        0 0 22px
-        rgba(
-            60,
-            180,
-            255,
-            0.32
-        ),
-
-        0 0 38px
-        rgba(
-            50,
-            170,
-            255,
-            0.20
-        ),
-
-        0 0 55px
-        rgba(
-            40,
-            150,
-            255,
-            0.12
-        );
+        0 0 10px rgba(70,190,255,0.45),
+        0 0 22px rgba(60,180,255,0.32),
+        0 0 38px rgba(50,170,255,0.20),
+        0 0 55px rgba(40,150,255,0.12);
 
     animation:
         pulsoAzul
         4s
         ease-in-out
         infinite;
-
 }
-
 
 @keyframes pulsoAzul {
 
-    0%,
-    100% {
-
-        opacity:
-            0.55;
-
-        transform:
-            scale(0.995);
-
+    0%, 100% {
+        opacity: 0.55;
+        transform: scale(0.995);
     }
-
 
     50% {
-
-        opacity:
-            0.80;
-
-        transform:
-            scale(1.015);
-
+        opacity: 0.80;
+        transform: scale(1.015);
     }
-
 }
 
-
-/* =========================================
-   LUZ ROJA CARTAS FALTANTES
-========================================= */
-
 .luz-faltante {
-
     position: absolute;
-
     top: -9px;
-
     left: -9px;
-
     right: -9px;
-
     bottom: -9px;
-
     pointer-events: none;
-
     z-index: -1;
-
     border-radius: 14px;
 
     box-shadow:
-
-        0 0 12px
-        rgba(
-            255,
-            55,
-            55,
-            0.38
-        ),
-
-        0 0 25px
-        rgba(
-            255,
-            50,
-            50,
-            0.25
-        ),
-
-        0 0 42px
-        rgba(
-            255,
-            45,
-            45,
-            0.15
-        );
+        0 0 12px rgba(255,55,55,0.38),
+        0 0 25px rgba(255,50,50,0.25),
+        0 0 42px rgba(255,45,45,0.15);
 
     animation:
         pulsoRojo
         4s
         ease-in-out
         infinite;
-
 }
-
 
 @keyframes pulsoRojo {
 
-    0%,
-    100% {
-
-        opacity:
-            0.55;
-
+    0%, 100% {
+        opacity: 0.55;
     }
-
 
     50% {
-
-        opacity:
-            0.85;
-
+        opacity: 0.85;
     }
-
 }
-
-
-/* =========================================
-   ESTRELLAS
-========================================= */
 
 .estrellas-carta {
-
     position: absolute;
-
     inset: 0;
-
     width: 100%;
-
     height: 100%;
-
     overflow: hidden;
-
     pointer-events: none;
-
     z-index: 10;
-
     border-radius: 10px;
-
 }
 
-
 .estrella {
-
     position: absolute;
-
-    color:
-        #ffffff;
-
-    font-size:
-        21px;
-
-    line-height:
-        1;
-
-    opacity:
-        0;
-
-    pointer-events:
-        none;
+    color: #ffffff;
+    font-size: 21px;
+    line-height: 1;
+    opacity: 0;
+    pointer-events: none;
 
     text-shadow:
-
-        0 0 4px
-        #ffffff,
-
-        0 0 8px
-        #8ee8ff,
-
-        0 0 14px
-        #39caff,
-
-        0 0 22px
-        rgba(
-            80,
-            200,
-            255,
-            0.95
-        );
+        0 0 4px #ffffff,
+        0 0 8px #8ee8ff,
+        0 0 14px #39caff,
+        0 0 22px rgba(80,200,255,0.95);
 
     animation:
         brilloEstrella
         3s
         ease-in-out
         infinite;
-
 }
-
 
 @keyframes brilloEstrella {
 
     0% {
-
-        opacity:
-            0;
-
-        transform:
-            scale(0.2)
-            rotate(0deg);
-
+        opacity: 0;
+        transform: scale(0.2) rotate(0deg);
     }
-
 
     12% {
-
-        opacity:
-            1;
-
-        transform:
-            scale(1.4)
-            rotate(20deg);
-
+        opacity: 1;
+        transform: scale(1.4) rotate(20deg);
     }
-
 
     25% {
-
-        opacity:
-            0.95;
-
-        transform:
-            scale(1)
-            rotate(45deg);
-
+        opacity: 0.95;
+        transform: scale(1) rotate(45deg);
     }
-
 
     40% {
-
-        opacity:
-            1;
-
-        transform:
-            scale(1.3)
-            rotate(70deg);
-
+        opacity: 1;
+        transform: scale(1.3) rotate(70deg);
     }
-
 
     55% {
-
-        opacity:
-            0;
-
-        transform:
-            scale(0.25)
-            rotate(100deg);
-
+        opacity: 0;
+        transform: scale(0.25) rotate(100deg);
     }
-
 
     100% {
-
-        opacity:
-            0;
-
-        transform:
-            scale(0.2)
-            rotate(120deg);
-
+        opacity: 0;
+        transform: scale(0.2) rotate(120deg);
     }
-
 }
-
-
-/* =========================================
-   BOTÓN CONSEGUIDA
-========================================= */
 
 .carta button.conseguida {
-
-    background:
-        #f5c400;
-
-    color:
-        #ffffff;
-
-    font-weight:
-        bold;
+    background: #f5c400;
+    color: #ffffff;
+    font-weight: bold;
 
     box-shadow:
-
         0 3px 10px
-        rgba(
-            245,
-            196,
-            0,
-            0.40
-        );
-
+        rgba(245,196,0,0.40);
 }
 
-
 .carta button.conseguida:hover {
+    background: #ffd21f;
+}
 
-    background:
-        #ffd21f;
+#selector-expansion {
+    width: 100%;
+    padding: 14px 18px;
+    border: 1px solid #d1d5db;
+    border-radius: 12px;
+    font-size: 16px;
+    background: white;
+    margin-bottom: 15px;
+    cursor: pointer;
+    outline: none;
+}
 
+#selector-expansion:focus {
+    border-color: #2563eb;
+    box-shadow:
+        0 0 0 3px
+        rgba(37,99,235,0.12);
 }
 
 `;
 
-
-document.head.appendChild(
-    estilos
-);
+document.head.appendChild(estilos);
