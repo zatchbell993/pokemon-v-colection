@@ -10,9 +10,30 @@
         content="width=device-width, initial-scale=1.0"
     >
 
-    <title>Pokémon V Collection</title>
+    <title>Pokémon V Collection · Tracker TCG</title>
+
+    <!-- FUENTES GOOGLE FONTS -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
 
     <style>
+
+        :root {
+            --bg-body: #f1f5f9;
+            --bg-card: #ffffff;
+            --color-text-main: #0f172a;
+            --color-text-muted: #64748b;
+            --color-primary: #2563eb;
+            --color-gold: #f59e0b;
+            --color-gold-glow: rgba(245, 158, 11, 0.35);
+            --border-subtle: #e2e8f0;
+            --shadow-sm: 0 2px 6px rgba(15, 23, 42, 0.05);
+            --shadow-md: 0 8px 24px -4px rgba(15, 23, 42, 0.08);
+            --shadow-lg: 0 16px 32px -6px rgba(15, 23, 42, 0.12);
+            --radius-md: 14px;
+            --radius-lg: 18px;
+        }
 
         * {
             box-sizing: border-box;
@@ -20,32 +41,137 @@
 
         body {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: #f3f4f6;
-            color: #111827;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg-body);
+            color: var(--color-text-main);
+            min-height: 100vh;
+            -webkit-font-smoothing: antialiased;
         }
 
+        /* =========================================================
+           CABECERA (HEADER) PREMIUM POKÉMON
+        ========================================================= */
+
         header {
-            background: #111827;
+            position: relative;
+            background: linear-gradient(135deg, #090d16 0%, #111827 50%, #1e1b4b 100%);
             color: white;
-            padding: 25px 40px;
+            padding: 35px 40px;
+            overflow: hidden;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.25);
+        }
+
+        header::after {
+            content: "";
+            position: absolute;
+            right: -30px;
+            top: -50px;
+            width: 260px;
+            height: 260px;
+            background: radial-gradient(circle, rgba(255, 255, 255, 0.06) 20%, transparent 70%);
+            border: 14px solid rgba(255, 255, 255, 0.04);
+            border-radius: 50%;
+            pointer-events: none;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            position: relative;
+            z-index: 2;
+        }
+
+        .badge-era {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: rgba(37, 99, 235, 0.25);
+            border: 1px solid rgba(59, 130, 246, 0.4);
+            color: #93c5fd;
+            font-family: 'Outfit', sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            padding: 4px 12px;
+            border-radius: 999px;
+            letter-spacing: 0.5px;
+            text-transform: uppercase;
+            margin-bottom: 10px;
+        }
+
+        .badge-era::before {
+            content: "⚡";
+            font-size: 11px;
         }
 
         header h1 {
             margin: 0;
-            font-size: 28px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 36px;
+            font-weight: 900;
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .logo-pokemon {
+            background: linear-gradient(180deg, #ffffff 0%, #cbd5e1 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+        }
+
+        .v-badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #fef08a 0%, #f59e0b 50%, #b45309 100%);
+            color: #1e1b4b;
+            font-size: 26px;
+            font-weight: 900;
+            width: 44px;
+            height: 44px;
+            border-radius: 12px;
+            box-shadow:
+                0 0 20px rgba(245, 158, 11, 0.6),
+                inset 0 2px 3px rgba(255, 255, 255, 0.8),
+                inset 0 -2px 3px rgba(0, 0, 0, 0.4);
+            transform: skew(-6deg);
+            border: 2px solid #fef08a;
+            line-height: 1;
+            text-shadow: 0 1px 2px rgba(255, 255, 255, 0.6);
+        }
+
+        .logo-collection {
+            background: linear-gradient(180deg, #60a5fa 0%, #3b82f6 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-weight: 800;
+            letter-spacing: 0.5px;
         }
 
         header p {
-            margin: 6px 0 0;
-            color: #9ca3af;
+            margin: 8px 0 0;
+            color: #94a3b8;
+            font-size: 15px;
+            font-weight: 500;
         }
+
+        /* =========================================================
+           CONTENEDOR PRINCIPAL
+        ========================================================= */
 
         main {
             max-width: 1200px;
             margin: 30px auto;
             padding: 0 20px;
         }
+
+        /* =========================================================
+           PANEL DE ESTADÍSTICAS
+        ========================================================= */
 
         .estadisticas {
             display: grid;
@@ -55,59 +181,300 @@
         }
 
         .estadistica {
-            background: white;
-            border-radius: 15px;
-            padding: 25px;
-            box-shadow:
-                0 4px 12px
-                rgba(0, 0, 0, 0.08);
+            position: relative;
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 24px 26px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-subtle);
+            overflow: hidden;
+            transition: transform 0.25s ease, box-shadow 0.25s ease;
+        }
+
+        .estadistica:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-lg);
+        }
+
+        .estadistica-icono {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            font-size: 28px;
+            opacity: 0.85;
+            background: #f8fafc;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-shadow: var(--shadow-sm);
         }
 
         .estadistica h2 {
             margin: 0;
-            font-size: 30px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 32px;
+            font-weight: 800;
+            color: var(--color-text-main);
+            letter-spacing: -0.5px;
+        }
+
+        .estadistica:nth-child(1) h2 {
+            color: #d97706;
+        }
+
+        .estadistica:nth-child(2) h2 {
+            color: #2563eb;
+        }
+
+        .estadistica:nth-child(3) h2 {
+            color: #475569;
         }
 
         .estadistica p {
-            margin: 8px 0 0;
-            color: #6b7280;
+            margin: 6px 0 0;
+            color: var(--color-text-muted);
+            font-size: 14px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .barra {
             height: 10px;
-            background: #e5e7eb;
+            background: #e2e8f0;
             border-radius: 10px;
-            margin-top: 15px;
+            margin-top: 16px;
             overflow: hidden;
         }
 
         .progreso {
             width: 0%;
             height: 100%;
-            background: #2563eb;
-            transition: width 0.4s ease;
+            background: linear-gradient(90deg, #3b82f6 0%, #06b6d4 50%, #10b981 100%);
+            border-radius: 10px;
+            transition: width 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 0 10px rgba(6, 182, 212, 0.4);
         }
 
-        .buscador {
-            margin-bottom: 15px;
+        /* =========================================================
+           BUSCADOR
+        ========================================================= */
+
+        .buscador-contenedor {
+            position: relative;
+            margin-bottom: 18px;
+        }
+
+        .buscador-icono {
+            position: absolute;
+            left: 18px;
+            top: 50%;
+            transform: translateY(-50%);
+            font-size: 18px;
+            color: #94a3b8;
+            pointer-events: none;
         }
 
         .buscador input {
             width: 100%;
-            padding: 14px 18px;
-            border: 1px solid #d1d5db;
-            border-radius: 12px;
+            padding: 16px 20px 16px 50px;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
             font-size: 16px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
             outline: none;
-            background: white;
-            transition: 0.2s;
+            background: var(--bg-card);
+            color: var(--color-text-main);
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s ease;
         }
 
         .buscador input:focus {
-            border-color: #2563eb;
+            border-color: var(--color-primary);
             box-shadow:
-                0 0 0 3px
-                rgba(37, 99, 235, 0.12);
+                0 0 0 4px rgba(37, 99, 235, 0.12),
+                var(--shadow-md);
+        }
+
+        .buscador input::placeholder {
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        /* =========================================================
+           BOTONERA DE EXPANSIONES
+        ========================================================= */
+
+        .botonera-expansiones-contenedor {
+            margin-bottom: 20px;
+        }
+
+        .botonera-expansiones-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            padding: 0 4px;
+        }
+
+        .botonera-expansiones-titulo {
+            font-family: 'Outfit', sans-serif;
+            font-size: 13px;
+            font-weight: 700;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .botonera-expansiones-titulo::before {
+            content: "◆";
+            color: var(--color-primary);
+            font-size: 10px;
+        }
+
+        .botonera-expansiones {
+            display: flex;
+            gap: 12px;
+            overflow-x: auto;
+            padding: 6px 4px 14px 4px;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .botonera-expansiones::-webkit-scrollbar {
+            height: 6px;
+        }
+
+        .botonera-expansiones::-webkit-scrollbar-track {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+
+        .botonera-expansiones::-webkit-scrollbar-thumb {
+            background: #94a3b8;
+            border-radius: 10px;
+        }
+
+        .botonera-expansiones::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+
+        .boton-expansion {
+            flex: 0 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            background: var(--bg-card);
+            border: 2px solid transparent;
+            border-radius: var(--radius-md);
+            padding: 10px 14px;
+            cursor: pointer;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.22s ease;
+            min-width: 110px;
+            max-width: 135px;
+            text-align: center;
+            user-select: none;
+        }
+
+        .boton-expansion:hover {
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+            border-color: #bfdbfe;
+        }
+
+        .boton-expansion.activo {
+            border-color: var(--color-primary);
+            background: #eff6ff;
+            box-shadow:
+                0 0 0 3px rgba(37, 99, 235, 0.2),
+                var(--shadow-md);
+            transform: translateY(-2px);
+        }
+
+        .boton-expansion img {
+            height: 38px;
+            max-width: 95px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.12));
+            transition: transform 0.2s ease;
+        }
+
+        .boton-expansion:hover img {
+            transform: scale(1.06);
+        }
+
+        .boton-expansion .nombre-exp {
+            margin-top: 8px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #334155;
+            line-height: 1.2;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .boton-expansion.activo .nombre-exp {
+            color: #1d4ed8;
+            font-weight: 700;
+        }
+
+        .boton-expansion.todas-btn {
+            min-width: 90px;
+            background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+        }
+
+        .boton-expansion.todas-btn .icono-todas {
+            font-size: 22px;
+            line-height: 38px;
+            display: block;
+        }
+
+        .boton-expansion .badge-exp {
+            display: inline-block;
+            font-size: 11px;
+            font-weight: bold;
+            padding: 4px 8px;
+            background: #e2e8f0;
+            color: #334155;
+            border-radius: 6px;
+            height: 38px;
+            line-height: 30px;
+        }
+
+        /* =========================================================
+           DESPLEGABLE Y CONTROLES
+        ========================================================= */
+
+        #selector-expansion {
+            width: 100%;
+            padding: 14px 18px;
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius-md);
+            font-size: 15px;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg-card);
+            color: var(--color-text-main);
+            margin-bottom: 18px;
+            cursor: pointer;
+            outline: none;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s ease;
+        }
+
+        #selector-expansion:focus {
+            border-color: var(--color-primary);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.12);
         }
 
         .controles {
@@ -116,121 +483,1486 @@
             margin-bottom: 25px;
         }
 
-        button {
-            border: none;
-            padding: 12px 18px;
-            border-radius: 10px;
+        .controles button {
+            border: 1px solid var(--border-subtle);
+            padding: 12px 22px;
+            border-radius: 12px;
             cursor: pointer;
-            background: white;
+            background: var(--bg-card);
+            color: var(--color-text-muted);
+            font-family: 'Outfit', sans-serif;
             font-size: 15px;
-            transition: 0.2s;
+            font-weight: 600;
+            box-shadow: var(--shadow-sm);
+            transition: all 0.2s ease;
         }
 
-        button:hover {
+        .controles button:hover {
             transform: translateY(-2px);
+            box-shadow: var(--shadow-md);
+            color: var(--color-text-main);
         }
 
-        button.activo {
-            background: #2563eb;
+        .controles button.activo:nth-child(1) {
+            background: var(--color-primary);
             color: white;
+            border-color: var(--color-primary);
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
         }
+
+        .controles button.activo:nth-child(2) {
+            background: #d97706;
+            color: white;
+            border-color: #d97706;
+            box-shadow: 0 4px 14px rgba(217, 119, 6, 0.35);
+        }
+
+        .controles button.activo:nth-child(3) {
+            background: #dc2626;
+            color: white;
+            border-color: #dc2626;
+            box-shadow: 0 4px 14px rgba(220, 38, 38, 0.35);
+        }
+
+        /* =========================================================
+           CUADRÍCULA DE CARTAS (ÁLBUM VISUAL)
+        ========================================================= */
 
         .cartas {
             display: grid;
-            grid-template-columns:
-                repeat(
-                    auto-fill,
-                    minmax(180px, 1fr)
-                );
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(170px, 1fr));
+            gap: 16px;
         }
 
         .carta {
             position: relative;
-            background: white;
-            border-radius: 15px;
-            padding: 10px;
-            box-shadow:
-                0 4px 12px
-                rgba(0, 0, 0, 0.08);
-            transition:
-                transform 0.25s ease,
-                box-shadow 0.3s ease;
+            background: var(--bg-card);
+            border-radius: var(--radius-lg);
+            padding: 6px;
+            box-shadow: var(--shadow-md);
+            border: 1px solid var(--border-subtle);
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.25s ease, border-color 0.25s ease;
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .carta:hover {
-            transform: translateY(-5px);
-            box-shadow:
-                0 10px 25px
-                rgba(0, 0, 0, 0.15);
+            transform: translateY(-6px) scale(1.02);
+            box-shadow: var(--shadow-lg);
+            border-color: #93c5fd;
+            z-index: 5;
         }
 
         .carta img {
             width: 100%;
-            border-radius: 10px;
+            border-radius: 12px;
             display: block;
         }
 
-        .carta h3 {
-            margin: 10px 5px 3px;
-            font-size: 16px;
-        }
-
-        .carta p {
-            margin: 0 5px 10px;
-            color: #6b7280;
-            font-size: 14px;
-        }
-
-        .carta button {
-            width: 100%;
-        }
-
-        .carta button.conseguida {
-            background: #f5c400;
-            color: white;
-            font-weight: bold;
-        }
-
-        .carta button.conseguida:hover {
-            background: #ffd21f;
-        }
-
-        #selector-expansion {
-            width: 100%;
-            padding: 14px 18px;
-            border: 1px solid #d1d5db;
-            border-radius: 12px;
-            font-size: 16px;
-            background: white;
-            margin-bottom: 15px;
+        /* Botón Flotante (+ / ✓) */
+        .btn-coleccion-flotante {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            border: 2px solid rgba(255, 255, 255, 0.7);
+            background: rgba(15, 23, 42, 0.82);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: 900;
+            display: flex;
+            align-items: center;
+            justify-content: center;
             cursor: pointer;
-            outline: none;
+            box-shadow: 0 4px 14px rgba(0, 0, 0, 0.4);
+            transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+            z-index: 10;
         }
 
-        #selector-expansion:focus {
-            border-color: #2563eb;
-            box-shadow:
-                0 0 0 3px
-                rgba(37, 99, 235, 0.12);
+        .btn-coleccion-flotante:hover {
+            transform: scale(1.18);
+            background: rgba(37, 99, 235, 0.95);
+            border-color: #ffffff;
+            box-shadow: 0 6px 18px rgba(37, 99, 235, 0.5);
         }
 
-        @media (max-width: 700px) {
+        .btn-coleccion-flotante.conseguida {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            border-color: #fef08a;
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(217, 119, 6, 0.55), 0 0 12px rgba(245, 158, 11, 0.45);
+        }
 
+        .btn-coleccion-flotante.conseguida:hover {
+            transform: scale(1.18);
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            box-shadow: 0 6px 20px rgba(217, 119, 6, 0.75);
+        }
+
+        /* =========================================================
+           RESPONSIVE DESIGN (MÓVILES)
+        ========================================================= */
+
+        /* =========================================================
+           MODAL VISOR 3D HOLOGRÁFICO
+        ========================================================= */
+
+        .modal-carta {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .modal-carta.activo {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-backdrop {
+            position: absolute;
+            inset: 0;
+            background: rgba(8, 12, 22, 0.84);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+        }
+
+        .modal-contenedor {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 36px;
+            background: linear-gradient(145deg, #1e293b 0%, #0f172a 100%);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: 24px;
+            padding: 35px 40px;
+            box-shadow: 0 25px 60px -12px rgba(0, 0, 0, 0.85), 0 0 40px rgba(37, 99, 235, 0.25);
+            max-width: 820px;
+            width: 100%;
+            transform: scale(0.92);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .modal-carta.activo .modal-contenedor {
+            transform: scale(1);
+        }
+
+        .modal-btn-cerrar {
+            position: absolute;
+            top: 18px;
+            right: 18px;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.15);
+            border: 1px solid rgba(255, 255, 255, 0.25);
+            color: #ffffff;
+            font-size: 20px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            z-index: 50;
+            user-select: none;
+        }
+
+        .modal-btn-cerrar:hover {
+            background: rgba(239, 68, 68, 0.9);
+            transform: scale(1.1) rotate(90deg);
+            border-color: #ef4444;
+        }
+
+        /* Contenedor 3D */
+        .carta-3d-wrapper {
+            perspective: 1000px;
+            flex: 0 0 auto;
+            width: 270px;
+            height: 380px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: grab;
+            user-select: none;
+        }
+
+        .carta-3d-wrapper:active {
+            cursor: grabbing;
+        }
+
+        .carta-3d {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            border-radius: 16px;
+            transform-style: preserve-3d;
+            box-shadow: 0 20px 45px -10px rgba(0, 0, 0, 0.7), 0 0 25px rgba(59, 130, 246, 0.35);
+            overflow: hidden;
+            will-change: transform;
+        }
+
+        .carta-3d img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 16px;
+            display: block;
+            pointer-events: none;
+        }
+
+        /* Capa Holográfica Foil (Suavizada al 50%) */
+        .holograma-foil {
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            pointer-events: none;
+            opacity: 0;
+            background: linear-gradient(
+                115deg,
+                transparent 12%,
+                rgba(255, 0, 128, 0.28) 25%,
+                rgba(0, 255, 230, 0.32) 45%,
+                rgba(255, 230, 0, 0.32) 65%,
+                rgba(168, 85, 247, 0.28) 85%,
+                transparent 100%
+            );
+            background-size: 300% 300%;
+            mix-blend-mode: color-dodge;
+            transition: opacity 0.25s ease;
+            z-index: 2;
+        }
+
+        /* Reflejo de luz / Glare (Suavizado al 50%) */
+        .holograma-glare {
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            pointer-events: none;
+            opacity: 0;
+            background: radial-gradient(
+                circle at 50% 50%,
+                rgba(255, 255, 255, 0.45) 0%,
+                rgba(255, 255, 255, 0.12) 35%,
+                transparent 70%
+            );
+            mix-blend-mode: overlay;
+            transition: opacity 0.25s ease;
+            z-index: 3;
+        }
+
+        .holograma-sparkles {
+            position: absolute;
+            inset: 0;
+            border-radius: 16px;
+            pointer-events: none;
+            opacity: 0;
+            background-image: radial-gradient(rgba(255, 255, 255, 0.45) 1px, transparent 1px);
+            background-size: 16px 16px;
+            mix-blend-mode: screen;
+            transition: opacity 0.3s ease;
+            z-index: 4;
+        }
+
+        /* Panel de Información */
+        .modal-info-panel {
+            flex: 1;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .modal-info-panel h2 {
+            margin: 0;
+            font-family: 'Outfit', sans-serif;
+            font-size: 28px;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            color: #ffffff;
+        }
+
+        .modal-subtitulo {
+            margin: 0 0 8px 0;
+            color: #93c5fd;
+            font-size: 16px;
+            font-weight: 600;
+        }
+
+        .modal-detalles-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin: 8px 0 16px;
+        }
+
+        .modal-detalle-item {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 12px;
+            padding: 10px 14px;
+        }
+
+        .detalle-etiqueta {
+            display: block;
+            font-size: 11px;
+            color: #94a3b8;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 2px;
+        }
+
+        .detalle-valor {
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            color: #f8fafc;
+            font-weight: 700;
+        }
+
+        .modal-btn-conseguida {
+            border: none;
+            padding: 14px 20px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 800;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            background: #334155;
+            color: #cbd5e1;
+        }
+
+        .modal-btn-conseguida:hover {
+            transform: translateY(-2px);
+            background: #475569;
+            color: #ffffff;
+        }
+
+        .modal-btn-conseguida.conseguida {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 18px rgba(245, 158, 11, 0.45);
+        }
+
+        .modal-btn-conseguida.conseguida:hover {
+            background: linear-gradient(135deg, #fbbf24 0%, #f59e0b 100%);
+            box-shadow: 0 6px 22px rgba(245, 158, 11, 0.55);
+        }
+
+        /* =========================================================
+           BOTÓN Y MODAL SUPERPUESTO DE OTRAS VERSIONES
+        ========================================================= */
+
+        .modal-btn-versiones {
+            width: 100%;
+            margin-top: 10px;
+            border: 1.5px solid rgba(59, 130, 246, 0.4);
+            padding: 12px 18px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-family: 'Outfit', sans-serif;
+            font-size: 14.5px;
+            font-weight: 700;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s cubic-bezier(0.34, 1.56, 0.64, 1);
+            background: rgba(37, 99, 235, 0.12);
+            color: #93c5fd;
+        }
+
+        .modal-btn-versiones:hover {
+            transform: translateY(-2px);
+            background: rgba(37, 99, 235, 0.28);
+            border-color: #60a5fa;
+            color: #ffffff;
+            box-shadow: 0 4px 14px rgba(37, 99, 235, 0.35);
+        }
+
+        .modal-versiones {
+            position: fixed;
+            inset: 0;
+            z-index: 10005;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .modal-versiones.activo {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-versiones-contenedor {
+            position: relative;
+            z-index: 10;
+            background: linear-gradient(145deg, #0f172a 0%, #020617 100%);
+            border: 1.5px solid rgba(59, 130, 246, 0.35);
+            border-radius: 24px;
+            padding: 30px 28px 24px;
+            box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.95), 0 0 40px rgba(37, 99, 235, 0.25);
+            max-width: 820px;
+            width: 100%;
+            max-height: 88vh;
+            overflow-y: auto;
+            transform: scale(0.94);
+            transition: transform 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            color: white;
+        }
+
+        .modal-versiones.activo .modal-versiones-contenedor {
+            transform: scale(1);
+        }
+
+        .modal-versiones-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .modal-versiones-header h2 {
+            margin: 6px 0 4px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 26px;
+            font-weight: 800;
+            background: linear-gradient(180deg, #ffffff 0%, #93c5fd 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .modal-versiones-header p {
+            margin: 0;
+            color: #94a3b8;
+            font-size: 13.5px;
+        }
+
+        .modal-versiones-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+            gap: 14px;
+        }
+
+        .version-card-item {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1.5px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            padding: 8px;
+            cursor: pointer;
+            transition: all 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+        }
+
+        .version-card-item:hover {
+            transform: translateY(-4px) scale(1.03);
+            background: rgba(37, 99, 235, 0.2);
+            border-color: #60a5fa;
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.5), 0 0 15px rgba(59, 130, 246, 0.4);
+        }
+
+        .version-card-item.actual {
+            border-color: #f59e0b;
+            background: rgba(245, 158, 11, 0.15);
+            box-shadow: 0 0 12px rgba(245, 158, 11, 0.4);
+        }
+
+        .version-card-img {
+            width: 100%;
+            height: 140px;
+            object-fit: contain;
+            border-radius: 10px;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .version-card-nombre {
+            font-family: 'Outfit', sans-serif;
+            font-size: 12.5px;
+            font-weight: 700;
+            color: #ffffff;
+            line-height: 1.2;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .version-card-expansion {
+            font-size: 11px;
+            color: #94a3b8;
+            margin-top: 2px;
+            line-height: 1.15;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .version-card-badge {
+            position: absolute;
+            top: 6px;
+            right: 6px;
+            width: 22px;
+            height: 22px;
+            border-radius: 50%;
+            background: rgba(15, 23, 42, 0.85);
+            border: 1.5px solid rgba(255, 255, 255, 0.5);
+            color: #ffffff;
+            font-size: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 900;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.4);
+        }
+
+        .version-card-badge.conseguida {
+            background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%);
+            border-color: #fef08a;
+            color: #ffffff;
+            box-shadow: 0 0 8px rgba(245, 158, 11, 0.6);
+        }
+
+        .modal-instruccion-3d {
+            margin: 10px 0 0 0;
+            font-size: 12px;
+            color: #64748b;
+            text-align: center;
+            font-weight: 500;
+        }
+
+        /* =========================================================
+           BOTÓN DE LOGROS (HEADER)
+        ========================================================= */
+
+        .header-actions {
+            margin-top: 14px;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .btn-logros-header {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.2) 0%, rgba(217, 119, 6, 0.35) 100%);
+            border: 1.5px solid rgba(245, 158, 11, 0.6);
+            color: #fef08a;
+            font-family: 'Outfit', sans-serif;
+            font-size: 15px;
+            font-weight: 800;
+            padding: 10px 18px;
+            border-radius: 999px;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(245, 158, 11, 0.25);
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            user-select: none;
+        }
+
+        .btn-logros-header:hover {
+            transform: translateY(-2px) scale(1.04);
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.35) 0%, rgba(217, 119, 6, 0.5) 100%);
+            border-color: #fef08a;
+            box-shadow: 0 6px 22px rgba(245, 158, 11, 0.45);
+            color: #ffffff;
+        }
+
+        .btn-logros-header .icono-trofeo {
+            font-size: 18px;
+            filter: drop-shadow(0 0 6px rgba(245, 158, 11, 0.8));
+        }
+
+        .badge-contador-logros {
+            background: #1e1b4b;
+            color: #fde047;
+            font-size: 12px;
+            font-weight: 800;
+            padding: 3px 9px;
+            border-radius: 999px;
+            border: 1px solid rgba(253, 224, 71, 0.4);
+            margin-left: 4px;
+        }
+
+        /* =========================================================
+           TOAST NOTIFICACIÓN DE LOGRO DESBLOQUEADO
+        ========================================================= */
+
+        .toast-logro {
+            position: fixed;
+            bottom: 25px;
+            right: 25px;
+            z-index: 10000;
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            background: linear-gradient(135deg, #1e1b4b 0%, #0f172a 100%);
+            border: 2px solid #f59e0b;
+            border-radius: 18px;
+            padding: 16px 22px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), 0 0 25px rgba(245, 158, 11, 0.4);
+            color: white;
+            transform: translateY(120px) scale(0.9);
+            opacity: 0;
+            pointer-events: none;
+            transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        .toast-logro.activo {
+            transform: translateY(0) scale(1);
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .toast-icono {
+            font-size: 32px;
+            filter: drop-shadow(0 0 8px rgba(245, 158, 11, 0.8));
+            animation: bounceTrofeo 1.2s ease infinite alternate;
+        }
+
+        @keyframes bounceTrofeo {
+            0% { transform: translateY(0) scale(1); }
+            100% { transform: translateY(-4px) scale(1.1); }
+        }
+
+        .toast-titulo {
+            font-family: 'Outfit', sans-serif;
+            font-size: 12px;
+            font-weight: 800;
+            color: #fbbf24;
+            letter-spacing: 0.8px;
+            text-transform: uppercase;
+        }
+
+        .toast-descripcion {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            font-size: 15px;
+            font-weight: 700;
+            color: #ffffff;
+            margin-top: 2px;
+        }
+
+        /* =========================================================
+           MODAL VITRINA DE TROFEOS (POKÉMON TCG POCKET STYLE)
+        ========================================================= */
+
+        .modal-logros {
+            position: fixed;
+            inset: 0;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        .modal-logros.activo {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        .modal-logros-contenedor {
+            position: relative;
+            z-index: 10;
+            background: linear-gradient(145deg, #111827 0%, #090d16 100%);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 26px;
+            padding: 35px 35px 30px;
+            box-shadow: 0 25px 60px -10px rgba(0, 0, 0, 0.9), 0 0 45px rgba(245, 158, 11, 0.2);
+            max-width: 900px;
+            width: 100%;
+            max-height: 90vh;
+            overflow-y: auto;
+            transform: scale(0.92);
+            transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+            color: white;
+        }
+
+        .modal-logros.activo .modal-logros-contenedor {
+            transform: scale(1);
+        }
+
+        .logros-header {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .logros-header h2 {
+            margin: 6px 0 6px;
+            font-family: 'Outfit', sans-serif;
+            font-size: 32px;
+            font-weight: 900;
+            background: linear-gradient(180deg, #ffffff 0%, #fef08a 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .logros-header p {
+            margin: 0;
+            color: #94a3b8;
+            font-size: 14px;
+            max-width: 620px;
+            margin: 0 auto;
+        }
+
+        /* Resumen de Trofeos TCG Pocket */
+        .logros-resumen-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 14px;
+            margin-bottom: 22px;
+        }
+
+        .logros-resumen-card {
+            background: rgba(255, 255, 255, 0.04);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 14px 18px;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            transition: transform 0.2s ease;
+        }
+
+        .logros-resumen-card:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.07);
+        }
+
+        .logros-resumen-card.bronce { border-left: 4px solid #d97706; }
+        .logros-resumen-card.plata { border-left: 4px solid #94a3b8; }
+        .logros-resumen-card.oro { border-left: 4px solid #f59e0b; }
+
+        .resumen-emblema {
+            font-size: 28px;
+        }
+
+        .resumen-conteo {
+            display: block;
+            font-family: 'Outfit', sans-serif;
+            font-size: 20px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .resumen-label {
+            font-size: 11px;
+            color: #94a3b8;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.4px;
+        }
+
+        /* Trofeo Maestro Supremo Irisado */
+        .trofeo-maestro-card {
+            position: relative;
+            background: linear-gradient(135deg, rgba(30, 27, 75, 0.8) 0%, rgba(15, 23, 42, 0.9) 100%);
+            border: 2px solid rgba(255, 255, 255, 0.15);
+            border-radius: 20px;
+            padding: 22px 24px;
+            display: flex;
+            align-items: center;
+            gap: 22px;
+            margin-bottom: 26px;
+            overflow: hidden;
+        }
+
+        .trofeo-maestro-card::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(115deg, transparent 20%, rgba(244, 63, 94, 0.15) 35%, rgba(59, 130, 246, 0.2) 50%, rgba(245, 158, 11, 0.2) 65%, transparent 80%);
+            background-size: 200% 200%;
+            animation: shineIrisado 5s linear infinite;
+            pointer-events: none;
+        }
+
+        @keyframes shineIrisado {
+            0% { background-position: 0% 0%; }
+            100% { background-position: 200% 200%; }
+        }
+
+        .trofeo-maestro-card.desbloqueado {
+            border-color: #f43f5e;
+            box-shadow: 0 0 30px rgba(244, 63, 94, 0.35), 0 0 50px rgba(59, 130, 246, 0.25);
+        }
+
+        .trofeo-maestro-emblema {
+            width: 74px;
+            height: 74px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, #334155 0%, #1e293b 100%);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 38px;
+            flex-shrink: 0;
+            transition: all 0.3s ease;
+        }
+
+        .trofeo-maestro-card.desbloqueado .trofeo-maestro-emblema {
+            background: linear-gradient(135deg, #f43f5e 0%, #8b5cf6 50%, #3b82f6 100%);
+            border-color: #fef08a;
+            box-shadow: 0 0 25px rgba(244, 63, 94, 0.6);
+            transform: scale(1.08) rotate(-3deg);
+        }
+
+        .trofeo-maestro-tag {
+            font-family: 'Outfit', sans-serif;
+            font-size: 11px;
+            font-weight: 900;
+            color: #f43f5e;
+            letter-spacing: 1px;
+            margin-bottom: 2px;
+        }
+
+        .trofeo-maestro-info h3 {
+            margin: 0 0 4px 0;
+            font-family: 'Outfit', sans-serif;
+            font-size: 22px;
+            font-weight: 800;
+            color: #ffffff;
+        }
+
+        .trofeo-maestro-info p {
+            margin: 0 0 10px 0;
+            font-size: 13px;
+            color: #94a3b8;
+            line-height: 1.35;
+        }
+
+        .trofeo-maestro-progreso {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            font-size: 13px;
+            font-weight: 700;
+            color: #f8fafc;
+        }
+
+        .trofeo-maestro-barra {
+            flex: 1;
+            height: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .trofeo-maestro-fill {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, #f43f5e, #8b5cf6, #3b82f6, #10b981, #f59e0b);
+            border-radius: 999px;
+            transition: width 0.6s ease;
+        }
+
+        /* Título de Lista de Expansiones */
+        .logros-expansiones-titulo {
+            font-family: 'Outfit', sans-serif;
+            font-size: 16px;
+            font-weight: 800;
+            color: #cbd5e1;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .logros-expansiones-titulo::before {
+            content: "◆";
+            color: var(--color-primary);
+        }
+
+        /* Cuadrícula de Expansiones */
+        .logros-expansiones-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+            gap: 14px;
+        }
+
+        .logro-expansion-card {
+            background: rgba(255, 255, 255, 0.03);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 18px;
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            transition: all 0.22s ease;
+        }
+
+        .logro-expansion-card:hover {
+            background: rgba(255, 255, 255, 0.06);
+            border-color: rgba(255, 255, 255, 0.18);
+            transform: translateY(-3px);
+        }
+
+        .logro-exp-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .logro-exp-logo {
+            height: 32px;
+            max-width: 75px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.4));
+        }
+
+        .logro-exp-detalles {
+            flex: 1;
+            min-width: 0;
+        }
+
+        .logro-exp-nombre {
+            font-family: 'Outfit', sans-serif;
+            font-size: 14px;
+            font-weight: 700;
+            color: #ffffff;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .logro-exp-stats {
+            font-size: 11px;
+            color: #94a3b8;
+            font-weight: 600;
+            margin-top: 1px;
+        }
+
+        /* Barra de progreso por expansión */
+        .logro-exp-barra {
+            height: 6px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 999px;
+            overflow: hidden;
+        }
+
+        .logro-exp-fill {
+            height: 100%;
+            background: linear-gradient(90deg, #3b82f6 0%, #10b981 100%);
+            border-radius: 999px;
+            transition: width 0.4s ease;
+        }
+
+        /* Los 3 Trofeos (Bronce 30%, Plata 60%, Oro 100%) */
+        .logro-trofeos-row {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+            background: rgba(0, 0, 0, 0.3);
+            padding: 8px;
+            border-radius: 14px;
+        }
+
+        .trofeo-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 6px 4px;
+            border-radius: 12px;
+            border: 1px solid transparent;
+            background: rgba(255, 255, 255, 0.02);
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+            user-select: none;
+        }
+
+        .trofeo-item-img {
+            width: 40px;
+            height: 40px;
+            object-fit: contain;
+            transition: all 0.25s ease;
+        }
+
+        .trofeo-item.bloqueado {
+            opacity: 0.35;
+        }
+
+        .trofeo-item.bloqueado .trofeo-item-img {
+            filter: grayscale(100%) brightness(40%) contrast(90%);
+        }
+
+        .trofeo-item.desbloqueado {
+            opacity: 1;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+        }
+
+        .trofeo-item.desbloqueado .trofeo-item-img {
+            transform: scale(1.08);
+        }
+
+        .trofeo-item.bronce.desbloqueado {
+            background: linear-gradient(135deg, rgba(217, 119, 6, 0.2) 0%, rgba(146, 64, 14, 0.35) 100%);
+            border-color: rgba(217, 119, 6, 0.6);
+            box-shadow: 0 0 14px rgba(217, 119, 6, 0.35);
+        }
+
+        .trofeo-item.bronce.desbloqueado .trofeo-item-img {
+            filter: drop-shadow(0 2px 6px rgba(217, 119, 6, 0.6));
+        }
+
+        .trofeo-item.plata.desbloqueado {
+            background: linear-gradient(135deg, rgba(148, 163, 184, 0.2) 0%, rgba(71, 85, 105, 0.35) 100%);
+            border-color: rgba(203, 213, 225, 0.6);
+            box-shadow: 0 0 14px rgba(203, 213, 225, 0.4);
+        }
+
+        .trofeo-item.plata.desbloqueado .trofeo-item-img {
+            filter: drop-shadow(0 2px 6px rgba(203, 213, 225, 0.7));
+        }
+
+        .trofeo-item.oro.desbloqueado {
+            background: linear-gradient(135deg, rgba(245, 158, 11, 0.25) 0%, rgba(217, 119, 6, 0.45) 100%);
+            border-color: rgba(251, 191, 36, 0.7);
+            box-shadow: 0 0 18px rgba(245, 158, 11, 0.55);
+            transform: translateY(-2px);
+        }
+
+        .trofeo-item.oro.desbloqueado .trofeo-item-img {
+            filter: drop-shadow(0 2px 8px rgba(251, 191, 36, 0.85));
+        }
+
+        .trofeo-item-label {
+            font-family: 'Outfit', sans-serif;
+            font-size: 10.5px;
+            font-weight: 800;
+            margin-top: 4px;
+            letter-spacing: 0.3px;
+        }
+
+        .trofeo-item.bronce .trofeo-item-label { color: #fcd34d; }
+        .trofeo-item.plata .trofeo-item-label { color: #e2e8f0; }
+        .trofeo-item.oro .trofeo-item-label { color: #fef08a; }
+
+        .resumen-emblema-img {
+            width: 44px;
+            height: 44px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 6px rgba(0, 0, 0, 0.4));
+        }
+
+        .emblema-maestro-img {
+            width: 60px;
+            height: 60px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 12px rgba(244, 63, 94, 0.6));
+        }
+
+        .toast-emblema-img {
+            width: 48px;
+            height: 48px;
+            object-fit: contain;
+            filter: drop-shadow(0 0 10px rgba(245, 158, 11, 0.8));
+            animation: bounceTrofeo 1.2s ease infinite alternate;
+        }
+
+        /* =========================================================
+           RESPONSIVE DESIGN (OPTIMIZACIÓN MÓVIL Y TABLETS)
+        ========================================================= */
+
+        @media (max-width: 768px) {
+
+            /* Header compacto */
             header {
-                padding: 20px;
+                padding: 22px 16px 18px;
+                text-align: center;
             }
 
+            .header-content {
+                display: flex;
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .badge-era {
+                font-size: 11px;
+                padding: 3px 10px;
+                margin-bottom: 8px;
+            }
+
+            header h1 {
+                font-size: 25px;
+                justify-content: center;
+                gap: 8px;
+            }
+
+            .v-badge {
+                width: 32px;
+                height: 32px;
+                font-size: 19px;
+                border-radius: 9px;
+            }
+
+            header p {
+                font-size: 13px;
+                margin-top: 6px;
+                line-height: 1.35;
+            }
+
+            /* Contenedor Principal */
+            main {
+                margin: 14px auto 30px;
+                padding: 0 12px;
+            }
+
+            /* Panel de Estadísticas en 3 mini-tarjetas horizontales */
             .estadisticas {
-                grid-template-columns: 1fr;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+                margin-bottom: 14px;
             }
 
+            .estadistica {
+                padding: 12px 6px;
+                text-align: center;
+                border-radius: 12px;
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .estadistica-icono {
+                display: none;
+            }
+
+            .estadistica h2 {
+                font-size: 16px;
+                line-height: 1.2;
+            }
+
+            .estadistica p {
+                font-size: 9.5px;
+                margin: 3px 0 0;
+                letter-spacing: 0;
+                line-height: 1.15;
+            }
+
+            .barra {
+                margin-top: 6px;
+                height: 5px;
+                width: 85%;
+            }
+
+            /* Buscador */
+            .buscador-contenedor {
+                margin-bottom: 12px;
+            }
+
+            .buscador input {
+                padding: 12px 14px 12px 42px;
+                font-size: 14px;
+                border-radius: 12px;
+            }
+
+            .buscador-icono {
+                left: 14px;
+                font-size: 16px;
+            }
+
+            /* Botonera de Expansiones táctil */
+            .botonera-expansiones-contenedor {
+                margin-bottom: 12px;
+            }
+
+            .botonera-expansiones-header {
+                margin-bottom: 6px;
+            }
+
+            .botonera-expansiones-titulo {
+                font-size: 11px;
+            }
+
+            .botonera-expansiones {
+                gap: 8px;
+                padding: 4px 2px 8px 2px;
+            }
+
+            .boton-expansion {
+                min-width: 80px;
+                max-width: 95px;
+                padding: 8px 6px;
+                border-radius: 10px;
+            }
+
+            .boton-expansion img {
+                height: 26px;
+                max-width: 65px;
+            }
+
+            .boton-expansion .nombre-exp {
+                font-size: 9px;
+                margin-top: 4px;
+                line-height: 1.15;
+            }
+
+            .boton-expansion.todas-btn {
+                min-width: 64px;
+            }
+
+            .boton-expansion.todas-btn .icono-todas {
+                font-size: 16px;
+                line-height: 26px;
+            }
+
+            #selector-expansion {
+                display: none;
+            }
+
+            /* Botones Filtros */
+            .controles {
+                display: flex;
+                gap: 6px;
+                margin-bottom: 14px;
+            }
+
+            .controles button {
+                flex: 1;
+                padding: 9px 4px;
+                font-size: 12px;
+                font-weight: 700;
+                border-radius: 10px;
+                text-align: center;
+            }
+
+            /* Cuadrícula de Cartas (3 columnas en móvil - Álbum de Coleccionista Limpio) */
             .cartas {
-                grid-template-columns:
-                    repeat(2, 1fr);
-                gap: 12px;
+                grid-template-columns: repeat(3, 1fr);
+                gap: 8px;
+                padding: 0;
             }
 
+            .carta {
+                padding: 0;
+                background: transparent;
+                border: none;
+                box-shadow: none;
+                border-radius: 8px;
+                overflow: visible;
+                display: flex;
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .carta:hover {
+                transform: none;
+                box-shadow: none;
+                border-color: transparent;
+            }
+
+            .imagen-contenedor {
+                position: relative;
+                width: 100%;
+                border-radius: 8px;
+                overflow: visible;
+            }
+
+            .carta img {
+                width: 100%;
+                height: auto;
+                aspect-ratio: 734 / 1024;
+                border-radius: 8px;
+                display: block;
+                box-shadow: 0 2px 8px rgba(0, 0, 0, 0.45);
+            }
+
+            /* Resplandor suave contenido en móvil para evitar que se monte en cartas vecinas */
+            .luz-energia {
+                top: -2px;
+                left: -2px;
+                right: -2px;
+                bottom: -2px;
+                border-radius: 10px;
+                box-shadow: 0 0 6px rgba(70, 190, 255, 0.45), 0 0 12px rgba(60, 180, 255, 0.25);
+            }
+
+            .luz-faltante {
+                top: -1px;
+                left: -1px;
+                right: -1px;
+                bottom: -1px;
+                border-radius: 9px;
+                box-shadow: 0 0 5px rgba(255, 55, 55, 0.3);
+            }
+
+            .btn-coleccion-flotante {
+                bottom: 4px;
+                right: 4px;
+                width: 30px;
+                height: 30px;
+                font-size: 17px;
+                border-width: 2px;
+            }
+
+            /* Modal Visor 3D adaptado a pantallas móviles */
+            .modal-carta {
+                padding: 12px;
+            }
+
+            .modal-contenedor {
+                flex-direction: column;
+                padding: 24px 16px 20px;
+                gap: 14px;
+                max-height: 92vh;
+                width: 100%;
+                max-width: 380px;
+                border-radius: 20px;
+                overflow-y: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+
+            .modal-btn-cerrar {
+                top: 10px;
+                right: 10px;
+                width: 34px;
+                height: 34px;
+                font-size: 16px;
+            }
+
+            .carta-3d-wrapper {
+                width: 180px;
+                height: 252px;
+                margin: 0 auto;
+            }
+
+            .modal-info-panel {
+                width: 100%;
+                text-align: center;
+                gap: 8px;
+            }
+
+            .modal-info-panel h2 {
+                font-size: 20px;
+                line-height: 1.2;
+            }
+
+            .modal-subtitulo {
+                font-size: 13px;
+                margin: 0 0 6px 0;
+            }
+
+            .modal-detalles-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 6px;
+                margin: 4px 0 10px;
+            }
+
+            .modal-detalle-item {
+                padding: 6px 8px;
+                border-radius: 8px;
+            }
+
+            .detalle-etiqueta {
+                font-size: 9.5px;
+            }
+
+            .detalle-valor {
+                font-size: 12.5px;
+            }
+
+            .modal-btn-conseguida {
+                width: 100%;
+                padding: 11px 14px;
+                font-size: 14px;
+                border-radius: 10px;
+            }
+
+            .modal-btn-versiones {
+                padding: 10px 14px;
+                font-size: 13.5px;
+            }
+
+            /* Modal Versiones Superpuesto en Móvil */
+            .modal-versiones {
+                padding: 12px;
+            }
+
+            .modal-versiones-contenedor {
+                padding: 22px 14px 18px;
+                max-height: 90vh;
+                border-radius: 20px;
+            }
+
+            .modal-versiones-header h2 {
+                font-size: 20px;
+            }
+
+            .modal-versiones-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 8px;
+            }
+
+            .version-card-img {
+                height: 110px;
+            }
+
+            .modal-instruccion-3d {
+                font-size: 11px;
+                margin: 4px 0 0;
+            }
+
+            .logros-resumen-grid {
+                grid-template-columns: 1fr;
+                gap: 8px;
+            }
+
+            .trofeo-maestro-card {
+                flex-direction: column;
+                text-align: center;
+                padding: 18px 14px;
+                gap: 14px;
+            }
+
+            .trofeo-maestro-progreso {
+                flex-direction: column;
+                gap: 6px;
+            }
+
+            .logros-expansiones-grid {
+                grid-template-columns: 1fr;
+                gap: 10px;
+            }
+
+            .btn-logros-header {
+                font-size: 13px;
+                padding: 8px 14px;
+            }
         }
 
     </style>
@@ -242,20 +1974,43 @@
 
     <header>
 
-        <h1>Pokémon V Collection</h1>
+        <div class="header-content">
 
-        <p>
-            Mi colección de cartas Pokémon
-        </p>
+            <div class="badge-era">
+                Era Espada y Escudo · Sword & Shield Series
+            </div>
+
+            <h1>
+                <span class="logo-pokemon">Pokémon</span>
+                <span class="v-badge">V</span>
+                <span class="logo-collection">Collection</span>
+            </h1>
+
+            <p>
+                Catálogo interactivo y tracker de colección de cartas Pokémon V
+            </p>
+
+            <div class="header-actions">
+                <button id="btn-abrir-logros" class="btn-logros-header" title="Ver Vitrina de Logros y Trofeos">
+                    <span class="icono-trofeo">🏆</span>
+                    <span class="texto-btn-logros">Vitrina de Trofeos</span>
+                    <span class="badge-contador-logros" id="badge-contador-logros">0 / 73</span>
+                </button>
+            </div>
+
+        </div>
 
     </header>
 
 
     <main>
 
+        <!-- PANEL DE ESTADÍSTICAS -->
         <section class="estadisticas">
 
             <div class="estadistica">
+
+                <div class="estadistica-icono">🏆</div>
 
                 <h2>0 / 0</h2>
 
@@ -267,6 +2022,8 @@
 
 
             <div class="estadistica">
+
+                <div class="estadistica-icono">⚡</div>
 
                 <h2>0%</h2>
 
@@ -285,6 +2042,8 @@
 
             <div class="estadistica">
 
+                <div class="estadistica-icono">📦</div>
+
                 <h2>0</h2>
 
                 <p>
@@ -296,14 +2055,35 @@
         </section>
 
 
-        <div class="buscador">
+        <!-- BUSCADOR -->
+        <div class="buscador-contenedor">
 
-            <input
-                type="text"
-                id="buscador"
-                placeholder="Buscar Pokémon, expansión o número..."
-                autocomplete="off"
-            >
+            <div class="buscador">
+
+                <span class="buscador-icono">🔍</span>
+
+                <input
+                    type="text"
+                    id="buscador"
+                    placeholder="Buscar por Pokémon, expansión, número o rareza..."
+                    autocomplete="off"
+                >
+
+            </div>
+
+        </div>
+
+
+        <div class="botonera-expansiones-contenedor">
+
+            <div class="botonera-expansiones-header">
+                <span class="botonera-expansiones-titulo">Filtrar por Expansión</span>
+            </div>
+
+            <div
+                class="botonera-expansiones"
+                id="botonera-expansiones"
+            ></div>
 
         </div>
 
@@ -341,6 +2121,151 @@
 
 
     </main>
+
+
+    <!-- MODAL VISOR 3D HOLOGRÁFICO -->
+    <div id="modal-carta" class="modal-carta" aria-hidden="true">
+        <div class="modal-backdrop" id="modal-backdrop"></div>
+        <div class="modal-contenedor">
+            <button class="modal-btn-cerrar" id="modal-btn-cerrar" aria-label="Cerrar">✕</button>
+            
+            <div class="carta-3d-wrapper" id="carta-3d-wrapper">
+                <div class="carta-3d" id="carta-3d">
+                    <img id="modal-carta-img" src="" alt="Carta Pokémon">
+                    <div class="holograma-foil" id="holograma-foil"></div>
+                    <div class="holograma-glare" id="holograma-glare"></div>
+                    <div class="holograma-sparkles"></div>
+                </div>
+            </div>
+
+            <div class="modal-info-panel">
+                <h2 id="modal-carta-nombre">Nombre de la carta</h2>
+                <p id="modal-carta-expansion" class="modal-subtitulo">Expansión</p>
+                
+                <div class="modal-detalles-grid">
+                    <div class="modal-detalle-item">
+                        <span class="detalle-etiqueta">Nº Colección</span>
+                        <span id="modal-carta-numero" class="detalle-valor">001/200</span>
+                    </div>
+                    <div class="modal-detalle-item">
+                        <span class="detalle-etiqueta">Tipo</span>
+                        <span id="modal-carta-tipo" class="detalle-valor">Normal</span>
+                    </div>
+                    <div class="modal-detalle-item">
+                        <span class="detalle-etiqueta">Rareza</span>
+                        <span id="modal-carta-rareza" class="detalle-valor">Ultra Rara</span>
+                    </div>
+                    <div class="modal-detalle-item">
+                        <span class="detalle-etiqueta">Variante</span>
+                        <span id="modal-carta-variante" class="detalle-valor">V</span>
+                    </div>
+                </div>
+
+                <button id="modal-btn-toggle" class="modal-btn-conseguida">
+                    <span id="modal-btn-icono">✓</span>
+                    <span id="modal-btn-texto">La tengo</span>
+                </button>
+
+                <button id="modal-btn-versiones" class="modal-btn-versiones">
+                    <span class="icono-versiones">🔍</span>
+                    <span id="modal-btn-versiones-texto">Más versiones de esta carta</span>
+                </button>
+                
+                <p class="modal-instruccion-3d">✨ Pasa el ratón o desliza sobre la carta para inclinarla y ver el efecto holográfico</p>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- MODAL SUPERPUESTO DE OTRAS VERSIONES DE LA CARTA -->
+    <div id="modal-versiones" class="modal-versiones" aria-hidden="true">
+        <div class="modal-backdrop" id="modal-versiones-backdrop"></div>
+        <div class="modal-versiones-contenedor">
+            <button class="modal-btn-cerrar" id="modal-versiones-btn-cerrar" aria-label="Cerrar">✕</button>
+            <div class="modal-versiones-header">
+                <div class="badge-era" id="modal-versiones-subtitulo">Variantes y Evoluciones V / VMAX / VSTAR</div>
+                <h2 id="modal-versiones-titulo">Versiones del Pokémon</h2>
+                <p id="modal-versiones-desc">Toca cualquier versión para abrirla directamente en el visor 3D.</p>
+            </div>
+            <div id="modal-versiones-grid" class="modal-versiones-grid">
+                <!-- Renderizado dinámico desde app.js -->
+            </div>
+        </div>
+    </div>
+
+
+    <!-- TOAST NOTIFICACIÓN DE LOGRO DESBLOQUEADO -->
+    <div id="toast-logro" class="toast-logro" aria-live="polite">
+        <img id="toast-icono-img" src="trofeos/bronce.png" alt="Trofeo Desbloqueado" class="toast-emblema-img">
+        <div class="toast-contenido">
+            <div class="toast-titulo">¡NUEVO TROFEO DESBLOQUEADO!</div>
+            <div class="toast-descripcion" id="toast-descripcion">Espada y Escudo · Trofeo de Bronce</div>
+        </div>
+    </div>
+
+
+    <!-- MODAL VITRINA DE TROFEOS (POKÉMON TCG POCKET STYLE) -->
+    <div id="modal-logros" class="modal-logros" aria-hidden="true">
+        <div class="modal-backdrop" id="modal-logros-backdrop"></div>
+        <div class="modal-logros-contenedor">
+            <button class="modal-btn-cerrar" id="modal-logros-btn-cerrar" aria-label="Cerrar">✕</button>
+            
+            <div class="logros-header">
+                <div class="badge-era">Colección Pokémon TCG Pocket Style</div>
+                <h2>🏆 Vitrina de Trofeos</h2>
+                <p>Consigue trofeos completando el 30% (Bronce), 60% (Plata) y 100% (Oro) de cada expansión, y el Trofeo Irisado Supremo al completar todas.</p>
+            </div>
+
+            <!-- Resumen de Trofeos -->
+            <div class="logros-resumen-grid">
+                <div class="logros-resumen-card bronce">
+                    <img src="trofeos/bronce.png" alt="Trofeo Bronce" class="resumen-emblema-img">
+                    <div class="resumen-info">
+                        <span class="resumen-conteo" id="conteo-bronce">0 / 24</span>
+                        <span class="resumen-label">Trofeos Bronce (30%)</span>
+                    </div>
+                </div>
+                <div class="logros-resumen-card plata">
+                    <img src="trofeos/plata.png" alt="Trofeo Plata" class="resumen-emblema-img">
+                    <div class="resumen-info">
+                        <span class="resumen-conteo" id="conteo-plata">0 / 24</span>
+                        <span class="resumen-label">Trofeos Plata (60%)</span>
+                    </div>
+                </div>
+                <div class="logros-resumen-card oro">
+                    <img src="trofeos/oro.png" alt="Trofeo Oro" class="resumen-emblema-img">
+                    <div class="resumen-info">
+                        <span class="resumen-conteo" id="conteo-oro">0 / 24</span>
+                        <span class="resumen-label">Trofeos Oro (100%)</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Trofeo Maestro Irisado (100% Global) -->
+            <div class="trofeo-maestro-card" id="trofeo-maestro-card">
+                <div class="trofeo-maestro-emblema" id="trofeo-maestro-emblema">
+                    <img src="trofeos/irisado.png" alt="Trofeo Irisado Supremo" class="emblema-maestro-img">
+                </div>
+                <div class="trofeo-maestro-info">
+                    <div class="trofeo-maestro-tag">TROFEO SUPREMO</div>
+                    <h3>Maestro Coleccionista Pokémon V</h3>
+                    <p id="trofeo-maestro-descripcion">Completa el 100% de todas las 24 expansiones de la era Espada y Escudo para desbloquear este trofeo holográfico legendario.</p>
+                    <div class="trofeo-maestro-progreso">
+                        <div class="trofeo-maestro-barra"><div class="trofeo-maestro-fill" id="trofeo-maestro-fill"></div></div>
+                        <span id="trofeo-maestro-texto">0 / 24 expansiones al 100%</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lista de Expansiones y sus 3 Trofeos -->
+            <div class="logros-expansiones-titulo">
+                <span>Trofeos por Expansión (24 Sets)</span>
+            </div>
+            <div class="logros-expansiones-grid" id="logros-expansiones-grid">
+                <!-- Renderizado dinámico desde app.js -->
+            </div>
+        </div>
+    </div>
 
 
     <script src="app.js"></script>
